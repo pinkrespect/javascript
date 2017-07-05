@@ -1,8 +1,34 @@
 <!DOCTYPE html>
 <html>
+   <head>
+      <title>Calendar</title>
+   </head>
    <body>
       <script type="text/javascript">
-
+         var date = new Date();
+         var string = date.toDateString().split(" ");
+         var lastday = new Date(date.getUTCFullYear(), date.getUTCMonth() + 1, 0);
+         var firstday = new Date(date.getUTCFullYear(), date.getUTCMonth(), 1);
+         document.write(lastday.toDateString() + "<p>");
+         document.write(firstday.toDateString() + "<p>");
+         document.write(string[3]+ " " + string[1] + "<p>");
+         //TODO: Day of the first day array 
+         for(var j = 0; j < lastday.getDate();j++){
+            for(var i = 1;i <= 7;i++){
+               if(i == 0 || i + j > lastday.getDate()){
+                  document.write(" ");
+               }else{
+                  if(i+j == string[2]){
+                     document.write("<b>" + (i+j) + "</b> ");
+                  }
+                  else{
+                  document.write(i+j + " ");
+                  }
+               }
+            }
+            j = j+6;
+            document.write("<br>");
+         }
 
       </script>
    </body>
