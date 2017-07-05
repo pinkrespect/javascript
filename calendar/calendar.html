@@ -6,53 +6,33 @@
    <body>
       <script type="text/javascript">
          function dateObject(){
-            if(arguments.length == 0){
-               this.date = new Date();
-            }else{
-               this.date = new Date(arguments[0], arguments[1], arguments[2]);
-            }
-            
+            arguments.length == 0 ? 
+               this.date = new Date():
+               this.date = new Date(arguments[0], arguments[1], arguments[2])
+
+            var weeks = {
+               0: "Sun",
+               1: "Mon",
+               2: "Tues",
+               3: "Wed",
+               4: "Thurs",
+               5: "Fri",
+               6: "Sat"
+            }     
+
             return {
-            year: this.date.getUTCFullYear(),
-            month: this.date.getMonth(),
-            date: this.date.getDate(),
-            day: this.date.getDay()
+               year: this.date.getUTCFullYear(),
+               month: arguments.length?this.date.getMonth()+1:this.date.getMonth(),
+               date: this.date.getDate(),
+               day: this.date.getDay(),
+               daysOfWeek: weeks[(this.date.getDay())]
             }
          }
 
          var now = dateObject();
-
-         var weeks = {
-            0: "Mon",
-            1: "Tues",
-            2: "Wed",
-            3: "Thurs",
-            4: "Fri",
-            5: "Sat",
-            6: "Sun"
-         }
-         
-         var lastday = dateObject(now.year, now.month + 1, 0);
+         var lastday = dateObject(now.year, now.month+1, 0); // The next month's first day -1.
          var firstday = dateObject(now.year, now.month, 1);
-         document.write(lastday.month + " " + lastday.date + " " + lastday.day + "<p>");
-         document.write(firstday.month + " " + firstday.date + " " + firstday.day + "<p>");
 
-         for(var j = 0; j < lastday.date;j++){
-            for(var i = 1;i <= 7;i++){
-               if(i == 0 || i + j > lastday.date){
-                  document.write(" ");
-               }else{
-                  if(i+j == today){
-                     document.write("<b>" + (i+j) + "</b> ");
-                  }
-                  else{
-                  document.write(i+j + " ");
-                  }
-               }
-            }
-            j = j+6;
-            document.write("<br>");
-         }
 
       </script>
    </body>
