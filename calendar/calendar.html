@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html>
    <head>
-      <title>Calendar</title>
-   </head>
-   <body>
       <script type="text/javascript">
          function dateObject(){
             arguments.length? 
-               this.date = new Date(arguments[0], arguments[1], arguments[2]):
+               (arguments[2] == 0 && arguments[1] == 12?
+                  this.date = new Date(arguments[0], arguments[1], arguments[2]):
+                  this.date = new Date(arguments[0]+1, arguments[1], arguments[2])):
                this.date = new Date();
 
-            let weeks = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+            const weeks = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
 
             return {
                year: this.date.getUTCFullYear(),
-               month: arguments.length?this.date.getMonth()+1:this.date.getMonth(),
+               month: arguments.length?this.date.getMonth() + 1:this.date.getMonth(),
                date: this.date.getDate(),
                day: this.date.getDay(),
                daysOfWeek: weeks[(this.date.getDay())]
@@ -25,12 +24,21 @@
          const lastday = dateObject(now.year, now.month+1, 0); // The next month's first day -1.
          const firstday = dateObject(now.year, now.month, 1);
 
+         const titleText = "<title>* " + (now.month+1) + "/" + now.date + "/" + now.year + " *</title>";
+         document.head.insertAdjacentHTML("afterbegin", titleText);
+
          /* TODO
           1. First Day must start at firstday.day.
           2. One row of the chart must have 7 columns.
           */
+         
+         //for(
+
+
 
       </script>
+   </head>
+   <body>
    </body>
 </html>
 
