@@ -26,12 +26,6 @@
             }
          }
 
-         var iter = function* () {
-            var index = 0;
-            while(dates[index] <= lastday.date){
-               yield dates[index++];
-            }
-         }
 
          const now = dateObject();
          const lastday = dateObject(now.year, now.month+1, 0); // The next month's first day -1.
@@ -39,11 +33,14 @@
 
          const titleText = "<title>* " + (now.month+1) + "/" + now.date + "/" + now.year + " *</title>";
          document.head.insertAdjacentHTML("afterbegin", titleText);
+         
+         var iter = function* () {
+            var index = 0;
+            while(dates[index] <= lastday.date){
+               yield dates[index++];
+            }
+         }
 
-         /* TODO
-          1. First Day must start at firstday.day.
-          2. One row of the chart must have 7 columns.
-          */
          var iterator = iter();
 
          document.write("<p>" + (now.month+1) + " / " + now.date + " / " + now.year + "</p>");
@@ -51,6 +48,7 @@
          for(x of weeks){
             document.write(x + " ");
          }
+        
          document.write("<br>");
 
          for(var i = 0; i <= 5;i++){
@@ -67,8 +65,9 @@
             }
             document.write("<br>");
          }
-
-
+         /* TODO:
+         Beautify.
+         */
 
       </script>
    </head>
