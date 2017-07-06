@@ -1,9 +1,21 @@
 <!DOCTYPE html>
 <html>
+   <body>
+      <p id = "title"></p>
+      <p id = "days"></p>
+      <p id = "dates"></p>
+   </body>
    <head>
       <script type="text/javascript">
+         // Sets this month's last day, first day, today.
+         const now = dateObject();
+         const lastday = dateObject(now.year, now.month+1, 0); // The next month's first day -1.
+         const firstday = dateObject(now.year, now.month, 1);
+         
+         // Sets days of week.
          const weeks = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
          
+         // Sets maximum date for a month.
          const dates = [1, 2, 3, 4, 5, 6, 7,
                       8, 9, 10, 11, 12, 13, 14,
                       15, 16, 17, 18, 19, 20, 21,
@@ -21,57 +33,55 @@
                year: this.date.getUTCFullYear(),
                month: arguments.length?this.date.getMonth() + 1:this.date.getMonth(),
                date: this.date.getDate(),
-               day: this.date.getDay(),
-               daysOfWeek: weeks[(this.date.getDay())]
+               day: this.date.getDay()
             }
          }
-
-
-         const now = dateObject();
-         const lastday = dateObject(now.year, now.month+1, 0); // The next month's first day -1.
-         const firstday = dateObject(now.year, now.month, 1);
-
-         const titleText = "<title>* " + (now.month+1) + "/" + now.date + "/" + now.year + " *</title>";
-         document.head.insertAdjacentHTML("afterbegin", titleText);
-         
+         // Make date iterator. 
          var iter = function* () {
             var index = 0;
             while(dates[index] <= lastday.date){
                yield dates[index++];
             }
          }
-
          var iterator = iter();
 
-         document.write("<p>" + (now.month+1) + " / " + now.date + " / " + now.year + "</p>");
+         // Change page title to today's date.
+         const titleText = "<title>* " + (now.month+1) + "/" + now.date + "/" + now.year + " *</title>";
+         document.head.insertAdjacentHTML("afterbegin", titleText);
+         
+         // Page Starts Here
+         var bodyTitle = document.getElementById("title");
+         var titleLine = (now.month+1) + " / " + now.date + " / " + now.year;
+         bodyTitle.insertAdjacentHTML("afterbegin", titleLine);
 
+         var bodyDays = document.getElementById("days");
          for(x of weeks){
-            document.write(x + " ");
+            bodyDays.insertAdjacentHTML("afterbegin", x + " ");
          }
         
-         document.write("<br>");
-
+         var bodyDates = document.getElementById("dates");
          for(var i = 0; i <= 5;i++){
             for(var j=0; j < 7;j++){
                if(i == 0 && j < firstday.day){
-                  document.write("&nbsp;&nbsp;");
+                  bodyDates.insertAdjacentHTML("beforeend", "&nbsp;&nbsp;");
                }else{
                   var number = iterator.next().value;
                   if(number != undefined && number <= lastday.date)
-                     document.write(number + " " );
+                     if(number == now.date){
+                        bodyDates.insertAdjacentHTML("beforeend", "<b>" + number + "</b> ");
+                     } else {
+                     bodyDates.insertAdjacentHTML("beforeend", number + " " );
+                     }
                   else
                      break;
                }
             }
-            document.write("<br>");
+            bodyDates.insertAdjacentHTML("beforeend", "<br>");
          }
          /* TODO:
          Beautify.
          */
-
       </script>
    </head>
-   <body>
-   </body>
 </html>
 
