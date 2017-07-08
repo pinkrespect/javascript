@@ -71,28 +71,30 @@
             var date = document.createElement("p");
             date.id = daysObject.name;
             date.setAttribute("style", "width: 200px; margin: 30px 30px 30px 30px;");
+            date.setAttribute("align", "center");
 
             var calendarTitle = document.createElement("div");
             calendarTitle.id = daysObject.name + "Title";
-            calendarTitle.setAttribute("style", "width: 200px; color:"+ colorSet.lightFontColor+ "; background-color:" + colorSet.darkBgColor + ";");
+            calendarTitle.setAttribute("style", "font-size: 30px; width: 38px; color:"+ colorSet.darkBgColor+ "; background-color:" + colorSet.lightFontColor + "; margin: 3px auto; padding: 5px 5px 5px 5px;");
 
             var daysTable = document.createElement("table");
             daysTable.id = daysObject.name + "Days";
-            daysTable.setAttribute("style", "width: 200px; border: 1px solid blue; font-size: 12px; text-align: center");
+            daysTable.setAttribute("style", "width: 200px; font-size: 10px; color: "+ colorSet.lightFontColor +"; text-align: center");
 
+            var dateTable = document.createElement("table");
+            dateTable.id = daysObject.name + "Date";
+            dateTable.setAttribute("style", "width: 200px; background-color: " + colorSet.midColor + "; color: " + colorSet.darkBgColor + "; height: 160px; text-align: center; font-size: 14px;");
+           
             // Set titleLine.
-            var titleLine = document.createTextNode(daysObject.month+1);
+            var titleLine = document.createElement("strong").appendChild(document.createTextNode(daysObject.month+1));
             
             // Set daysTable.
             var daysRow = daysTable.insertRow();
             for(x of weeks){
-               daysRow.insertCell().innerHTML = x;
+               daysRow.insertCell().innerHTML = "<strong>" + x + "</strong>";
             }
 
             // Set dateTable. 
-            var dateTable = document.createElement("table");
-            dateTable.id = daysObject.name + "Date";
-            dateTable.setAttribute("style", "width: 200px; center; border: 1px solid blue; height: 160px; text-align: center");
 
             for(var i = 0; i <= 5;i++){
                var dateRow = dateTable.insertRow();
@@ -102,7 +104,10 @@
                   }else{
                      var number = iterator.next().value;
                      if(number != undefined && number <= daysObject.lastDate)
-                        dateRow.insertCell().innerHTML = number; 
+                        if(daysObject.name == "thisMonth" && number == now.date)
+                           dateRow.insertCell().innerHTML = "<strong>" + number + "</strong>";
+                        else
+                           dateRow.insertCell().innerHTML = number; 
                      else
                         dateRow.insertCell().innerHTML = "";
                   }
@@ -124,12 +129,12 @@
          // Set Boxes.
          var titleBox = document.createElement("h1");
          titleBox.id = "titleBox";
-         titleBox.setAttribute("style", "color: "+ colorSet.darkFontColor +";");
+         titleBox.setAttribute("style", "color: "+ colorSet.darkFontColor +"; font-size: 50px; padding-top: 100px");
          titleBox.appendChild(document.createTextNode(now.year));
 
          var calendarBox = document.createElement("p");
          calendarBox.id = "calendarBox";
-         calendarBox.setAttribute("style", "width: 800px; background-color:" + colorSet.midColor + "; padding: 10px 10px 10px 10px; display: flex; flex-direction: row; justify-content: center;");
+         calendarBox.setAttribute("style", "width: 100%; background-color:" + colorSet.darkBgColor + ";display: flex; flex-direction: row; justify-content: center;");
 
          var box = document.createElement("div");
          box.id = "box";
@@ -143,6 +148,15 @@
          box.appendChild(titleBox);
          box.appendChild(calendarBox);
          document.body.appendChild(box);
+        
+         // Changes tr tags' attributes.
+         var tr = document.getElementsByTagName("tr");
+         for(x of tr)
+         x.setAttribute("style", "height: 25px");
+      
+         /* TODO:
+         Changes color scheme.
+         */
 
       </script>
    </body>
