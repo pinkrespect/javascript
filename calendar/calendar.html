@@ -14,20 +14,18 @@
          const weeks = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
 
          // Sets maximum date for a month.
-         const dates = [1, 2, 3, 4, 5, 6, 7,
-            8, 9, 10, 11, 12, 13, 14,
-            15, 16, 17, 18, 19, 20, 21,
-            22, 23, 24, 25, 26, 27, 28,
-            29, 30, 31];
+         const dates = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+            11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+            21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
          
          // Sets Color Set.
-
          const colorSet = {
-         
-
-         
+            lightBgColor: "#ffffff",
+            darkBgColor: "#282828",
+            lightFontColor: "#efefef",
+            darkFontColor: "#606060",
+            midColor: "#a5a5a5"
          }
-
 
          function dateObject(){
             var lastday, firstday;
@@ -72,16 +70,16 @@
 
             var date = document.createElement("p");
             date.id = daysObject.name;
-            date.setAttribute("style", "width: 200px; margin: 30px 30px 30px 30px");
+            date.setAttribute("style", "width: 200px; margin: 30px 30px 30px 30px;");
 
             var calendarTitle = document.createElement("div");
             calendarTitle.id = daysObject.name + "Title";
-            calendarTitle.setAttribute("style", "width: 198px; border: 1px solid blue;");
+            calendarTitle.setAttribute("style", "width: 200px; color:"+ colorSet.lightFontColor+ "; background-color:" + colorSet.darkBgColor + ";");
 
             var daysTable = document.createElement("table");
             daysTable.id = daysObject.name + "Days";
-            daysTable.setAttribute("style", "width: 200px; border: 1px solid blue; font-size: 12px");
-            
+            daysTable.setAttribute("style", "width: 200px; border: 1px solid blue; font-size: 12px; text-align: center");
+
             // Set titleLine.
             var titleLine = document.createTextNode(daysObject.month+1);
             
@@ -94,8 +92,8 @@
             // Set dateTable. 
             var dateTable = document.createElement("table");
             dateTable.id = daysObject.name + "Date";
-            dateTable.setAttribute("style", "width: 200px; center; border: 1px solid blue; height: 160px");
-            
+            dateTable.setAttribute("style", "width: 200px; center; border: 1px solid blue; height: 160px; text-align: center");
+
             for(var i = 0; i <= 5;i++){
                var dateRow = dateTable.insertRow();
                for(var j=0; j < 7;j++){
@@ -126,21 +124,18 @@
          // Set Boxes.
          var titleBox = document.createElement("h1");
          titleBox.id = "titleBox";
-         titleBox.setAttribute("style", "color: darkblue");
+         titleBox.setAttribute("style", "color: "+ colorSet.darkFontColor +";");
          titleBox.appendChild(document.createTextNode(now.year));
 
          var calendarBox = document.createElement("p");
          calendarBox.id = "calendarBox";
-         calendarBox.setAttribute("style", "width: 800px; background-color: white; padding: 10px 10px 10px 10px; display: flex; flex-direction: row; justify-content: center;");
+         calendarBox.setAttribute("style", "width: 800px; background-color:" + colorSet.midColor + "; padding: 10px 10px 10px 10px; display: flex; flex-direction: row; justify-content: center;");
 
          var box = document.createElement("div");
          box.id = "box";
          box.setAttribute("align", "center");
 
-         document.body.style.backgroundImage = "url('wallpaper.jpg')";
-         document.body.style.backgroundAttachment = "fixed";
-         document.body.style.backgroundPosition = "top center";
-         document.body.style.backgroundRepeat = "no-repeat";
+         document.body.style.backgroundColor = colorSet.lightBgColor;
 
          calendarBox.appendChild(drawCalendar(preMonth));
          calendarBox.appendChild(drawCalendar(thisMonth));
