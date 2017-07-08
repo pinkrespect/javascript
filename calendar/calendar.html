@@ -8,17 +8,17 @@
          const now = dateObject();
          const lastday = dateObject(now.year, now.month+1, 0); // The next month's first day -1.
          const firstday = dateObject(now.year, now.month, 1);
-         
+
          // Sets days of week.
          const weeks = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
-         
+
          // Sets maximum date for a month.
          const dates = [1, 2, 3, 4, 5, 6, 7,
-                      8, 9, 10, 11, 12, 13, 14,
-                      15, 16, 17, 18, 19, 20, 21,
-                      22, 23, 24, 25, 26, 27, 28,
-                      29, 30, 31];
-         
+            8, 9, 10, 11, 12, 13, 14,
+            15, 16, 17, 18, 19, 20, 21,
+            22, 23, 24, 25, 26, 27, 28,
+            29, 30, 31];
+
          function dateObject(){
             arguments.length? 
                (arguments[2] == 0 && arguments[1] == 12?
@@ -45,14 +45,15 @@
          // Change page title to today's date.
          const titleText = "<title>* " + (now.month+1) + "/" + now.date + "/" + now.year + " *</title>";
          document.head.insertAdjacentHTML("afterbegin", titleText);
-         
+
          // Page Starts Here
          var titleBox = document.createElement("div");
          titleBox.id = "titleBox";
-         
+
          var calendarBox = document.createElement("div");
          calendarBox.id = "calendarBox";
-         
+         calendarBox.setAttribute("align", "center");
+
          var today = document.createElement("p");
          today.id = "today";
          today.style.cssText = "color: blue;\
@@ -64,20 +65,20 @@
          days.id = "days";
          days.style.cssText = "color: yellow;\
                                background-color: black";
-         var daysDiv = document.createElement("div");
          var daysTable = document.createElement("table");
-         daysTable.align="center";
-         daysTable = daysTable.insertRow();
+         daysTable.width = 300;
+         var daysRow = daysTable.insertRow();
          for(x of weeks){
-            daysTable.insertCell().innerHTML = x;
+            daysRow.insertCell().innerHTML = x;
          }
 
          var date = document.createElement("p");
-         var dateTable = document.createElement("table");
          date.id = "date";
-
+         var dateTable = document.createElement("table");
+         dateTable.width = 300;
          for(var i = 0; i <= 5;i++){
             var dateRow = dateTable.insertRow();
+            
             for(var j=0; j < 7;j++){
                if(i == 0 && j < firstday.day){
                   dateRow.insertCell().innerHTML = "";
@@ -90,22 +91,21 @@
                }
             }
          }
-         
+
          today.appendChild(todayLine);
          titleBox.appendChild(today);
-         daysDiv.appendChild(daysTable);
-         days.appendChild(daysDiv);
+         days.appendChild(daysTable);
+         date.appendChild(dateTable);
          calendarBox.appendChild(days);
          calendarBox.appendChild(date);
-         date.appendChild(dateTable);
-        
+
 
          document.body.appendChild(titleBox);
          document.body.appendChild(calendarBox);
 
          /* TODO:
          Beautify.
-         */
+          */
       </script>
    </body>
 </html>
