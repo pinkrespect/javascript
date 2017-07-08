@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html>
-   <body>
-      <p id = "title"></p>
-      <p id = "days"></p>
-      <p id = "dates"></p>
-   </body>
    <head>
+   </head>
+   <body>
       <script type="text/javascript">
          // Sets this month's last day, first day, today.
          const now = dateObject();
@@ -50,38 +47,66 @@
          document.head.insertAdjacentHTML("afterbegin", titleText);
          
          // Page Starts Here
-         var bodyTitle = document.getElementById("title");
-         var titleLine = (now.month+1) + " / " + now.date + " / " + now.year;
-         bodyTitle.insertAdjacentHTML("afterbegin", titleLine);
+         var titleBox = document.createElement("div");
+         titleBox.id = "titleBox";
+         
+         var calendarBox = document.createElement("div");
+         calendarBox.id = "calendarBox";
+         
+         var today = document.createElement("p");
+         today.id = "today";
+         today.style.cssText = "color: blue;\
+                               background-color:darkblue;\
+                               text-align:center";
+         var todayLine = document.createTextNode((now.month+1) + "/" + now.date + "/" + now.year);
 
-         var bodyDays = document.getElementById("days");
+         var days = document.createElement("p");
+         days.id = "days";
+         days.style.cssText = "color: yellow;\
+                               background-color: black";
+         var daysDiv = document.createElement("div");
+         var daysTable = document.createElement("table");
+         daysTable.align="center";
+         daysTable = daysTable.insertRow();
          for(x of weeks){
-            bodyDays.insertAdjacentHTML("afterbegin", x + " ");
+            daysTable.insertCell().innerHTML = x;
          }
-        
-         var bodyDates = document.getElementById("dates");
+
+         var date = document.createElement("p");
+         var dateTable = document.createElement("table");
+         date.id = "date";
+
          for(var i = 0; i <= 5;i++){
+            var dateRow = dateTable.insertRow();
             for(var j=0; j < 7;j++){
                if(i == 0 && j < firstday.day){
-                  bodyDates.insertAdjacentHTML("beforeend", "&nbsp;&nbsp;");
+                  dateRow.insertCell().innerHTML = "";
                }else{
                   var number = iterator.next().value;
                   if(number != undefined && number <= lastday.date)
-                     if(number == now.date){
-                        bodyDates.insertAdjacentHTML("beforeend", "<b>" + number + "</b> ");
-                     } else {
-                     bodyDates.insertAdjacentHTML("beforeend", number + " " );
-                     }
+                     dateRow.insertCell().innerHTML = number; 
                   else
                      break;
                }
             }
-            bodyDates.insertAdjacentHTML("beforeend", "<br>");
          }
+         
+         today.appendChild(todayLine);
+         titleBox.appendChild(today);
+         daysDiv.appendChild(daysTable);
+         days.appendChild(daysDiv);
+         calendarBox.appendChild(days);
+         calendarBox.appendChild(date);
+         date.appendChild(dateTable);
+        
+
+         document.body.appendChild(titleBox);
+         document.body.appendChild(calendarBox);
+
          /* TODO:
          Beautify.
          */
       </script>
-   </head>
+   </body>
 </html>
 
