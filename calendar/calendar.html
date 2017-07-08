@@ -5,9 +5,10 @@
    <body>
       <script type="text/javascript">
          // Sets this month's last day, first day, today.
-         const now = dateObject();
-         const lastday = dateObject(now.year, now.month+1, 0); // The next month's first day -1.
-         const firstday = dateObject(now.year, now.month, 1);
+         const now = dateObject("now");
+         const thisMonth = dateObject(now.year, now.month, "thisMonth");
+         const preMonth = dateObject(now.year, now.month-1, "preMonth"); 
+         const nextMonth = dateObject(now.year, now.month+1, "nextMonth");
 
          // Sets days of week.
          const weeks = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
@@ -18,95 +19,136 @@
             15, 16, 17, 18, 19, 20, 21,
             22, 23, 24, 25, 26, 27, 28,
             29, 30, 31];
+         
+         // Sets Color Set.
+
+         const colorSet = {
+         
+
+         
+         }
+
 
          function dateObject(){
-            arguments.length? 
-               (arguments[2] == 0 && arguments[1] == 12?
-                  this.date = new Date(arguments[0]+1, arguments[1], arguments[2]):
-                  this.date = new Date(arguments[0], arguments[1], arguments[2])):
-               this.date = new Date();
+            var lastday, firstday;
+            if(arguments.length == 3){
+               if(arguments[1] != 12){
+                  lastday = new Date(arguments[0], arguments[1]+1, 0);
+                  firstday = new Date(arguments[0], arguments[1], 1);
+                  
+                  return{
+                     name: arguments[2],
+                     year: firstday.getUTCFullYear(),
+                     month: firstday.getMonth(),
+                     firstDate: firstday.getDate(),
+                     lastDate: lastday.getDate(),
+                     firstDay: firstday.getDay(),
+                     lastDay: lastday.getDay()
+                  }
+               }
+            } else{
+            this.date = new Date();
+               return {
+                  name: arguments[0],
+                  year: this.date.getUTCFullYear(),
+                  month: arguments.length?this.date.getMonth():this.date.getMonth(),
+                  date: this.date.getDate(),
+                  day: this.date.getDay()
+               }
+            }
+         }
 
-            return {
-               year: this.date.getUTCFullYear(),
-               month: arguments.length?this.date.getMonth() + 1:this.date.getMonth(),
-               date: this.date.getDate(),
-               day: this.date.getDay()
+         function drawCalendar(daysObject){
+            // Make date iterator. 
+            var iter = function* () {
+               var index = 0;
+               while(dates[index] <= daysObject.lastDate){
+                  yield dates[index++];
+               }
             }
-         }
-         // Make date iterator. 
-         var iter = function* () {
-            var index = 0;
-            while(dates[index] <= lastday.date){
-               yield dates[index++];
+            var iterator = iter();
+           
+            // Set component's id, attribute.
+
+            var date = document.createElement("p");
+            date.id = daysObject.name;
+            date.setAttribute("style", "width: 200px; margin: 30px 30px 30px 30px");
+
+            var calendarTitle = document.createElement("div");
+            calendarTitle.id = daysObject.name + "Title";
+            calendarTitle.setAttribute("style", "width: 198px; border: 1px solid blue;");
+
+            var daysTable = document.createElement("table");
+            daysTable.id = daysObject.name + "Days";
+            daysTable.setAttribute("style", "width: 200px; border: 1px solid blue; font-size: 12px");
+            
+            // Set titleLine.
+            var titleLine = document.createTextNode(daysObject.month+1);
+            
+            // Set daysTable.
+            var daysRow = daysTable.insertRow();
+            for(x of weeks){
+               daysRow.insertCell().innerHTML = x;
             }
+
+            // Set dateTable. 
+            var dateTable = document.createElement("table");
+            dateTable.id = daysObject.name + "Date";
+            dateTable.setAttribute("style", "width: 200px; center; border: 1px solid blue; height: 160px");
+            
+            for(var i = 0; i <= 5;i++){
+               var dateRow = dateTable.insertRow();
+               for(var j=0; j < 7;j++){
+                  if(i == 0 && j < daysObject.firstDay){
+                     dateRow.insertCell().innerHTML = "";
+                  }else{
+                     var number = iterator.next().value;
+                     if(number != undefined && number <= daysObject.lastDate)
+                        dateRow.insertCell().innerHTML = number; 
+                     else
+                        dateRow.insertCell().innerHTML = "";
+                  }
+               }
+            }
+
+            // Append Child Node to each calendar.
+            calendarTitle.appendChild(titleLine);
+            date.appendChild(calendarTitle);
+            date.appendChild(daysTable);
+            date.appendChild(dateTable);
+            return date;
          }
-         var iterator = iter();
 
          // Change page title to today's date.
          const titleText = "<title>* " + (now.month+1) + "/" + now.date + "/" + now.year + " *</title>";
          document.head.insertAdjacentHTML("afterbegin", titleText);
 
-         // Page Starts Here
-         var titleBox = document.createElement("div");
+         // Set Boxes.
+         var titleBox = document.createElement("h1");
          titleBox.id = "titleBox";
+         titleBox.setAttribute("style", "color: darkblue");
+         titleBox.appendChild(document.createTextNode(now.year));
 
-         var calendarBox = document.createElement("div");
+         var calendarBox = document.createElement("p");
          calendarBox.id = "calendarBox";
-         calendarBox.setAttribute("align", "center");
+         calendarBox.setAttribute("style", "width: 800px; background-color: white; padding: 10px 10px 10px 10px; display: flex; flex-direction: row; justify-content: center;");
 
-         var today = document.createElement("p");
-         today.id = "today";
-         today.style.cssText = "color: blue;\
-                               background-color:darkblue;\
-                               text-align:center";
-         var todayLine = document.createTextNode((now.month+1) + "/" + now.date + "/" + now.year);
+         var box = document.createElement("div");
+         box.id = "box";
+         box.setAttribute("align", "center");
 
-         var days = document.createElement("p");
-         days.id = "days";
-         days.style.cssText = "color: yellow;\
-                               background-color: black";
-         var daysTable = document.createElement("table");
-         daysTable.width = 300;
-         var daysRow = daysTable.insertRow();
-         for(x of weeks){
-            daysRow.insertCell().innerHTML = x;
-         }
+         document.body.style.backgroundImage = "url('wallpaper.jpg')";
+         document.body.style.backgroundAttachment = "fixed";
+         document.body.style.backgroundPosition = "top center";
+         document.body.style.backgroundRepeat = "no-repeat";
 
-         var date = document.createElement("p");
-         date.id = "date";
-         var dateTable = document.createElement("table");
-         dateTable.width = 300;
-         for(var i = 0; i <= 5;i++){
-            var dateRow = dateTable.insertRow();
-            
-            for(var j=0; j < 7;j++){
-               if(i == 0 && j < firstday.day){
-                  dateRow.insertCell().innerHTML = "";
-               }else{
-                  var number = iterator.next().value;
-                  if(number != undefined && number <= lastday.date)
-                     dateRow.insertCell().innerHTML = number; 
-                  else
-                     break;
-               }
-            }
-         }
+         calendarBox.appendChild(drawCalendar(preMonth));
+         calendarBox.appendChild(drawCalendar(thisMonth));
+         calendarBox.appendChild(drawCalendar(nextMonth));
+         box.appendChild(titleBox);
+         box.appendChild(calendarBox);
+         document.body.appendChild(box);
 
-         today.appendChild(todayLine);
-         titleBox.appendChild(today);
-         days.appendChild(daysTable);
-         date.appendChild(dateTable);
-         calendarBox.appendChild(days);
-         calendarBox.appendChild(date);
-
-
-         document.body.appendChild(titleBox);
-         document.body.appendChild(calendarBox);
-
-         /* TODO:
-         Beautify.
-          */
       </script>
    </body>
 </html>
-
