@@ -5,13 +5,45 @@
    <body>
       <script type="text/javascript">
          // Sets this month's last day, first day, today.
+         function dateObject(){
+            var lastday, firstday;
+            if(arguments.length == 3){
+               if(arguments[1] != 12){
+                  lastday = new Date(arguments[0], arguments[1]+1, 0);
+                  firstday = new Date(arguments[0], arguments[1], 1);
+                  dateText = firstday.toDateString().split(" "); 
+                  return{
+                     name: arguments[2],
+                     year: firstday.getUTCFullYear(),
+                     month: firstday.getMonth(),
+                     monthText: dateText[1],
+                     firstDate: firstday.getDate(),
+                     lastDate: lastday.getDate(),
+                     firstDay: firstday.getDay(),
+                     lastDay: lastday.getDay()
+                  }
+               }
+            } else{
+               this.date = new Date();
+               dateText = this.date.toDateString().split(" ");
+               return {
+                  name: arguments[0],
+                  year: this.date.getUTCFullYear(),
+                  month: this.date.getMonth(),
+                  monthText: dateText[1],
+                  date: this.date.getDate(),
+                  day: this.date.getDay()
+               }
+            }
+         }
+         
          const now = dateObject("now");
          const thisMonth = dateObject(now.year, now.month, "thisMonth");
          const preMonth = dateObject(now.year, now.month-1, "preMonth"); 
          const nextMonth = dateObject(now.year, now.month+1, "nextMonth");
 
          // Sets days of week.
-         const weeks = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+         const weeks = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
          // Sets maximum date for a month.
          const dates = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
@@ -20,40 +52,11 @@
          
          // Sets Color Set.
          const colorSet = {
-            lightBgColor: "#ffffff",
-            darkBgColor: "#282828",
-            lightFontColor: "#efefef",
-            darkFontColor: "#606060",
-            midColor: "#a5a5a5"
-         }
-
-         function dateObject(){
-            var lastday, firstday;
-            if(arguments.length == 3){
-               if(arguments[1] != 12){
-                  lastday = new Date(arguments[0], arguments[1]+1, 0);
-                  firstday = new Date(arguments[0], arguments[1], 1);
-                  
-                  return{
-                     name: arguments[2],
-                     year: firstday.getUTCFullYear(),
-                     month: firstday.getMonth(),
-                     firstDate: firstday.getDate(),
-                     lastDate: lastday.getDate(),
-                     firstDay: firstday.getDay(),
-                     lastDay: lastday.getDay()
-                  }
-               }
-            } else{
-            this.date = new Date();
-               return {
-                  name: arguments[0],
-                  year: this.date.getUTCFullYear(),
-                  month: arguments.length?this.date.getMonth():this.date.getMonth(),
-                  date: this.date.getDate(),
-                  day: this.date.getDay()
-               }
-            }
+            lightBgColor: "#9AABBE",
+            darkBgColor: "#4B3376",
+            lightFontColor: "#BDCAD1",
+            darkFontColor: "#472264",
+            midColor: "#60639A"
          }
 
          function drawCalendar(daysObject){
@@ -67,7 +70,6 @@
             var iterator = iter();
            
             // Set component's id, attribute.
-
             var date = document.createElement("p");
             date.id = daysObject.name;
             date.setAttribute("style", "width: 200px; margin: 30px 30px 30px 30px;");
@@ -76,37 +78,40 @@
             var calendarTitle = document.createElement("div");
             calendarTitle.id = daysObject.name + "Title";
             calendarTitle.setAttribute("style", "font-size: 30px; color:" + colorSet.lightBgColor + ";");
-
+            
             var daysTable = document.createElement("table");
             daysTable.id = daysObject.name + "Days";
             daysTable.setAttribute("style", "width: 200px; font-size: 10px; color: " + colorSet.lightFontColor +"; text-align: center");
 
             var dateTable = document.createElement("table");
             dateTable.id = daysObject.name + "Date";
-            dateTable.setAttribute("style", "width: 200px; background-color: " + colorSet.midColor + "; color: " + colorSet.darkBgColor + "; height: 160px; text-align: center; font-size: 14px;");
+            dateTable.setAttribute("style", "width: 200px; background-color: " + colorSet.midColor + "; color: " + colorSet.lightFontColor + "; height: 160px; text-align: center; font-size: 16px;");
            
-            // Set titleLine.
-            var titleLine = document.createElement("strong").appendChild(document.createTextNode(daysObject.month+1));
-            
-            // Set daysTable.
+            // Make titleLine content.
+            calendarTitle.innerHTML = "<strong>" + daysObject.monthText + "</strong>";
+
+            // Make daysTable contents.
             var daysRow = daysTable.insertRow();
             for(x of weeks){
                daysRow.insertCell().innerHTML = "<strong>" + x + "</strong>";
             }
 
-            // Set dateTable. 
-
+            // Make dateTable contents. 
             for(var i = 0; i <= 5;i++){
                var dateRow = dateTable.insertRow();
+               dateRow.setAttribute("style", "height:25px;");
                for(var j=0; j < 7;j++){
                   if(i == 0 && j < daysObject.firstDay){
                      dateRow.insertCell().innerHTML = "";
                   }else{
                      var number = iterator.next().value;
                      if(number != undefined && number <= daysObject.lastDate)
-                        if(daysObject.name == "thisMonth" && number == now.date)
-                           dateRow.insertCell().innerHTML = "<strong>" + number + "</strong>";
-                        else
+                        if(daysObject.name == "thisMonth" && number == now.date){
+                           // Make today's date bold.
+                           var todateCell = dateRow.insertCell();
+                           todateCell.innerHTML = "<strong>" + number + "</strong>";
+                           todateCell.setAttribute("style", "background-color: "+ colorSet.lightBgColor + "; color: " + colorSet.darkBgColor +";");
+                        } else
                            dateRow.insertCell().innerHTML = number; 
                      else
                         dateRow.insertCell().innerHTML = "";
@@ -114,33 +119,38 @@
                }
             }
 
-            // Append Child Node to each calendar.
-            calendarTitle.appendChild(titleLine);
+            // Append Child Node to each Parent Node.
             date.appendChild(calendarTitle);
             date.appendChild(daysTable);
             date.appendChild(dateTable);
             return date;
          }
 
-         // Change page title to today's date.
+         // Set title to today's date.
          const titleText = "<title>* " + (now.month+1) + "/" + now.date + "/" + now.year + " *</title>";
          document.head.insertAdjacentHTML("afterbegin", titleText);
 
          // Set Boxes.
-         var titleBox = document.createElement("h1");
-         titleBox.id = "titleBox";
-         titleBox.setAttribute("style", "color: "+ colorSet.darkFontColor +"; font-size: 50px; padding-top: 100px");
-         titleBox.appendChild(document.createTextNode(now.year));
-
-         var calendarBox = document.createElement("p");
-         calendarBox.id = "calendarBox";
-         calendarBox.setAttribute("style", "width: 100%; background-color:" + colorSet.darkBgColor + ";display: flex; flex-direction: row; justify-content: center;");
-
          var box = document.createElement("div");
          box.id = "box";
          box.setAttribute("align", "center");
 
-         document.body.style.backgroundColor = colorSet.lightBgColor;
+         var titleBox = document.createElement("canvas");
+         titleBox.setAttribute("style", "width: 300px; margin-top: 100px;");
+         var titleString = titleBox.getContext('2d');
+         titleString.id = "titleBox";
+         titleString.shadowColor = colorSet.lightFontColor;
+         titleString.shadowOffsetX = 10;
+         titleString.shadowOffsetY = 10;
+         titleString.shadowBlur = 0;
+         titleString.font = "120px 'Consolas'";
+         titleString.textAlign = "center";
+         titleString.fillStyle = colorSet.darkBgColor;
+         titleString.fillText(now.year, 150, 130);
+
+         var calendarBox = document.createElement("p");
+         calendarBox.id = "calendarBox";
+         calendarBox.setAttribute("style", "width: 100%; background-color:" + colorSet.darkBgColor + ";display: flex; flex-direction: row; justify-content: center;");
 
          calendarBox.appendChild(drawCalendar(preMonth));
          calendarBox.appendChild(drawCalendar(thisMonth));
@@ -148,16 +158,8 @@
          box.appendChild(titleBox);
          box.appendChild(calendarBox);
          document.body.appendChild(box);
+         document.body.style.backgroundColor = colorSet.lightBgColor;
         
-         // Changes tr tags' attributes.
-         var tr = document.getElementsByTagName("tr");
-         for(x of tr)
-         x.setAttribute("style", "height: 25px");
-      
-         /* TODO:
-         Changes color scheme.
-         */
-
       </script>
    </body>
 </html>
