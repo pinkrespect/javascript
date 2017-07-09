@@ -11,21 +11,27 @@
                if(arguments[1] != 12){
                   lastday = new Date(arguments[0], arguments[1]+1, 0);
                   firstday = new Date(arguments[0], arguments[1], 1);
-                  dateText = firstday.toDateString().split(" "); 
-                  return{
-                     name: arguments[2],
-                     year: firstday.getUTCFullYear(),
-                     month: firstday.getMonth(),
-                     monthText: dateText[1],
-                     firstDate: firstday.getDate(),
-                     lastDate: lastday.getDate(),
-                     firstDay: firstday.getDay(),
-                     lastDay: lastday.getDay()
-                  }
+               }else{
+                     lastday = new Date(arguments[0]+1, 0, 1);
+                     firstday = new Date(arguments[0], arguments[1], 1);
                }
+               dateText = firstday.toDateString().split(" "); 
+
+               return{
+                  name: arguments[2],
+                  year: firstday.getUTCFullYear(),
+                  month: firstday.getMonth(),
+                  monthText: dateText[1],
+                  firstDate: firstday.getDate(),
+                  lastDate: lastday.getDate(),
+                  firstDay: firstday.getDay(),
+                  lastDay: lastday.getDay()
+               }
+
             } else{
                this.date = new Date();
                dateText = this.date.toDateString().split(" ");
+
                return {
                   name: arguments[0],
                   year: this.date.getUTCFullYear(),
