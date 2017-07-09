@@ -76,20 +76,20 @@
             var iterator = iter();
            
             // Set component's id, attribute.
-            var date = document.createElement("p");
+            const date = document.createElement("p");
             date.id = daysObject.name;
             date.setAttribute("style", "width: 200px; margin: 30px 30px 30px 30px;");
             date.setAttribute("align", "center");
 
-            var calendarTitle = document.createElement("div");
+            const calendarTitle = document.createElement("div");
             calendarTitle.id = daysObject.name + "Title";
             calendarTitle.setAttribute("style", "font-size: 30px; color:" + colorSet.lightBgColor + ";");
             
-            var daysTable = document.createElement("table");
+            const daysTable = document.createElement("table");
             daysTable.id = daysObject.name + "Days";
             daysTable.setAttribute("style", "width: 200px; font-size: 10px; color: " + colorSet.lightFontColor +"; text-align: center");
 
-            var dateTable = document.createElement("table");
+            const dateTable = document.createElement("table");
             dateTable.id = daysObject.name + "Date";
             dateTable.setAttribute("style", "width: 200px; background-color: " + colorSet.midColor + "; color: " + colorSet.lightFontColor + "; height: 160px; text-align: center; font-size: 16px;");
            
@@ -137,11 +137,11 @@
          document.head.insertAdjacentHTML("afterbegin", titleText);
 
          // Set Boxes.
-         var box = document.createElement("div");
+         const box = document.createElement("div");
          box.id = "box";
          box.setAttribute("align", "center");
 
-         var titleBox = document.createElement("canvas");
+         const titleBox = document.createElement("canvas");
          titleBox.setAttribute("style", "width: 300px; margin-top: 100px;");
          var titleString = titleBox.getContext('2d');
          titleString.id = "titleBox";
@@ -154,7 +154,7 @@
          titleString.fillStyle = colorSet.darkBgColor;
          titleString.fillText(now.year, 150, 130);
 
-         var calendarBox = document.createElement("p");
+         const calendarBox = document.createElement("p");
          calendarBox.id = "calendarBox";
          calendarBox.setAttribute("style", "width: 100%; background-color:" + colorSet.darkBgColor + ";display: flex; flex-direction: row; justify-content: center;");
 
