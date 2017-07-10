@@ -50,15 +50,6 @@ const dates = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
 	11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
 	21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
 
-// Sets Color Set.
-const colorSet = {
-	lightBgColor: "#9AABBE",
-	darkBgColor: "#4B3376",
-	lightFontColor: "#BDCAD1",
-	darkFontColor: "#472264",
-	midColor: "#60639A"
-}
-
 function drawCalendar(daysObject){
 	// Make date iterator. 
 	var iter = function* () {
@@ -68,24 +59,18 @@ function drawCalendar(daysObject){
 		}
 	}
 	var iterator = iter();
-
 	// Set component's id, attribute.
 	const date = document.createElement("p");
 	date.id = daysObject.name;
-	date.setAttribute("style", "width: 200px; margin: 30px 30px 30px 30px;");
-	date.setAttribute("align", "center");
 
 	const calendarTitle = document.createElement("div");
 	calendarTitle.id = daysObject.name + "Title";
-	calendarTitle.setAttribute("style", "font-size: 30px; color:" + colorSet.lightBgColor + ";");
 
 	const daysTable = document.createElement("table");
 	daysTable.id = daysObject.name + "Days";
-	daysTable.setAttribute("style", "width: 200px; font-size: 10px; color: " + colorSet.lightFontColor +"; text-align: center");
 
 	const dateTable = document.createElement("table");
 	dateTable.id = daysObject.name + "Date";
-	dateTable.setAttribute("style", "width: 200px; background-color: " + colorSet.midColor + "; color: " + colorSet.lightFontColor + "; height: 160px; text-align: center; font-size: 16px;");
 
 	// Make titleLine content.
 	calendarTitle.innerHTML = "<strong>" + daysObject.monthText + "</strong>";
@@ -109,8 +94,8 @@ function drawCalendar(daysObject){
 					if(daysObject.name == "thisMonth" && number == now.date){
 						// Make today's date bold.
 						var todateCell = dateRow.insertCell();
+						todateCell.id = "todateCell";
 						todateCell.innerHTML = "<strong>" + number + "</strong>";
-						todateCell.setAttribute("style", "background-color: "+ colorSet.lightBgColor + "; color: " + colorSet.darkBgColor +";");
 					} else
 					dateRow.insertCell().innerHTML = number; 
 				else
@@ -133,24 +118,17 @@ document.head.insertAdjacentHTML("afterbegin", titleText);
 // Set Boxes.
 const box = document.createElement("div");
 box.id = "box";
-box.setAttribute("align", "center");
+box.align = "center";
 
 const titleBox = document.createElement("canvas");
-titleBox.setAttribute("style", "width: 300px; margin-top: 100px;");
+titleBox.id = "titleBox";
+
 var titleString = titleBox.getContext('2d');
-titleString.id = "titleBox";
-titleString.shadowColor = colorSet.lightFontColor;
-titleString.shadowOffsetX = 10;
-titleString.shadowOffsetY = 10;
-titleString.shadowBlur = 0;
-titleString.font = "120px 'Consolas'";
-titleString.textAlign = "center";
-titleString.fillStyle = colorSet.darkBgColor;
+titleString = Object.assign(titleString, {id: "titleBox", shadowColor: "#9AABBE", shadowOffsetX: 10, shadowOffsetY: 10, shadowBlur: 0, font: "120px 'Consolas'", textAlign: "center", fillStyle: "#4B3376"});
 titleString.fillText(now.year, 150, 130);
 
 const calendarBox = document.createElement("p");
 calendarBox.id = "calendarBox";
-calendarBox.setAttribute("style", "width: 100%; background-color:" + colorSet.darkBgColor + ";display: flex; flex-direction: row; justify-content: center;");
 
 calendarBox.appendChild(drawCalendar(preMonth));
 calendarBox.appendChild(drawCalendar(thisMonth));
@@ -158,5 +136,4 @@ calendarBox.appendChild(drawCalendar(nextMonth));
 box.appendChild(titleBox);
 box.appendChild(calendarBox);
 document.body.appendChild(box);
-document.body.style.backgroundColor = colorSet.lightBgColor;
 
