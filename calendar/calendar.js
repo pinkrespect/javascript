@@ -114,8 +114,7 @@ function drawCalendar(daysObject){
 }
 
 // Set title to today's date.
-const titleText = "<title>* " + (now.month+1) + "/" + now.date + "/" + now.year + " *</title>";
-document.head.insertAdjacentHTML("afterbegin", titleText);
+document.title = `* ${now.year}/${now.month}/${now.date} *`;
 
 // Set Boxes.
 const box = document.createElement("div");
