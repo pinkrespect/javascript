@@ -90,16 +90,18 @@ function drawCalendar(daysObject){
                 dateRow.insertCell().innerHTML = "";
             }else{
                 var number = iterator.next().value;
-                if(number != undefined && number <= daysObject.lastDate)
+                if(number != undefined && number <= daysObject.lastDate){
                     if(daysObject.name == "thisMonth" && number == now.date){
                         // Make today's date bold.
                         var todateCell = dateRow.insertCell();
                         todateCell.id = "todateCell";
                         todateCell.innerHTML = "<strong>" + number + "</strong>";
-                    } else
-                    dateRow.insertCell().innerHTML = number; 
-                else
+                    } else {
+                        dateRow.insertCell().innerHTML = number; 
+                    }
+                } else{
                     dateRow.insertCell().innerHTML = "";
+                }
             }
         }
     }
