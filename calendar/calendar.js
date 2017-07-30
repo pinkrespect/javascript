@@ -1,4 +1,6 @@
 // Sets this month's last day, first day, today.
+
+
 function dateObject(){
     let lastday, firstday;
     if(arguments.length === 3){
@@ -13,26 +15,20 @@ function dateObject(){
 
         return{
             name: arguments[2],
-            year: firstday.getUTCFullYear(),
             month: firstday.getMonth(),
             monthText: dateText[1],
-            firstDate: firstday.getDate(),
             lastDate: lastday.getDate(),
             firstDay: firstday.getDay(),
-            lastDay: lastday.getDay()
         }
 
     } else{
         this.date = new Date();
-        dateText = this.date.toDateString().split(" ");
 
         return {
             name: arguments[0],
             year: this.date.getUTCFullYear(),
             month: this.date.getMonth(),
-            monthText: dateText[1],
             date: this.date.getDate(),
-            day: this.date.getDay()
         }
     }
 }
