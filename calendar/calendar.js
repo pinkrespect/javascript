@@ -1,8 +1,8 @@
 // Sets this month's last day, first day, today.
 function dateObject(){
-    var lastday, firstday;
-    if(arguments.length == 3){
-        if(arguments[1] != 12){
+    let lastday, firstday;
+    if(arguments.length === 3){
+        if(arguments[1] !== 12){
             lastday = new Date(arguments[0], arguments[1]+1, 0);
             firstday = new Date(arguments[0], arguments[1], 1);
         }else{
@@ -52,49 +52,49 @@ const dates = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
 
 function drawCalendar(daysObject){
     // Make date iterator. 
-    var iter = function* () {
-        var index = 0;
+    let iter = function* () {
+        let index = 0;
         while(dates[index] <= daysObject.lastDate){
             yield dates[index++];
         }
     }
-    var iterator = iter();
+    let iterator = iter();
     // Set component's id, attribute.
     const date = document.createElement("p");
-    date.id = daysObject.name;
+    date.className = daysObject.name;
 
     const calendarTitle = document.createElement("div");
-    calendarTitle.id = daysObject.name + "Title";
+    calendarTitle.className = daysObject.name + "Title";
 
     const daysTable = document.createElement("table");
-    daysTable.id = daysObject.name + "Days";
+    daysTable.className = daysObject.name + "Days";
 
     const dateTable = document.createElement("table");
-    dateTable.id = daysObject.name + "Date";
+    dateTable.className = daysObject.name + "Date";
 
     // Make titleLine content.
     calendarTitle.innerHTML = "<strong>" + daysObject.monthText + "</strong>";
 
     // Make daysTable contents.
-    var daysRow = daysTable.insertRow();
+    let daysRow = daysTable.insertRow();
     for(x of weeks){
         daysRow.insertCell().innerHTML = "<strong>" + x + "</strong>";
     }
 
     // Make dateTable contents. 
-    for(var i = 0; i <= 5;i++){
-        var dateRow = dateTable.insertRow();
+    for(let i = 0; i <= 5;i++){
+        let dateRow = dateTable.insertRow();
         dateRow.setAttribute("style", "height:25px;");
-        for(var j=0; j < 7;j++){
-            if(i == 0 && j < daysObject.firstDay){
+        for(let j=0; j < 7;j++){
+            if(i === 0 && j < daysObject.firstDay){
                 dateRow.insertCell().innerHTML = "";
             }else{
-                var number = iterator.next().value;
-                if(number != undefined && number <= daysObject.lastDate){
-                    if(daysObject.name == "thisMonth" && number == now.date){
+                let number = iterator.next().value;
+                if(number !== undefined && number <= daysObject.lastDate){
+                    if(daysObject.name === "thisMonth" && number === now.date){
                         // Make today's date bold.
-                        var todateCell = dateRow.insertCell();
-                        todateCell.id = "todateCell";
+                        let todateCell = dateRow.insertCell();
+                        todateCell.className = "todateCell";
                         todateCell.innerHTML = "<strong>" + number + "</strong>";
                     } else {
                         dateRow.insertCell().innerHTML = number; 
@@ -119,18 +119,18 @@ document.head.insertAdjacentHTML("afterbegin", titleText);
 
 // Set Boxes.
 const box = document.createElement("div");
-box.id = "box";
+box.className = "box";
 box.align = "center";
 
 const titleBox = document.createElement("canvas");
-titleBox.id = "titleBox";
+titleBox.className = "titleBox";
 
-var titleString = titleBox.getContext('2d');
-titleString = Object.assign(titleString, {id: "titleBox", shadowColor: "#9AABBE", shadowOffsetX: 10, shadowOffsetY: 10, shadowBlur: 0, font: "120px 'Consolas'", textAlign: "center", fillStyle: "#4B3376"});
+let titleString = titleBox.getContext('2d');
+titleString = Object.assign(titleString, {className: "titleBox", shadowColor: "#9AABBE", shadowOffsetX: 10, shadowOffsetY: 10, shadowBlur: 0, font: "120px 'Consolas'", textAlign: "center", fillStyle: "#4B3376"});
 titleString.fillText(now.year, 150, 130);
 
 const calendarBox = document.createElement("p");
-calendarBox.id = "calendarBox";
+calendarBox.className = "calendarBox";
 
 calendarBox.appendChild(drawCalendar(preMonth));
 calendarBox.appendChild(drawCalendar(thisMonth));
