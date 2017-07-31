@@ -1,39 +1,33 @@
 // Sets this month's last day, first day, today.
 
-
 function dateObject(){
     let lastday, firstday;
-    if(arguments.length === 3){
-        if(arguments[1] !== 12){
-            lastday = new Date(arguments[0], arguments[1]+1, 0);
-            firstday = new Date(arguments[0], arguments[1], 1);
-        }else{
-            lastday = new Date(arguments[0]+1, 0, 1);
-            firstday = new Date(arguments[0], arguments[1], 1);
-        }
-        dateText = firstday.toDateString().split(" "); 
+    if(arguments[1] !== 12){
+        lastday = new Date(arguments[0], arguments[1]+1, 0);
+        firstday = new Date(arguments[0], arguments[1], 1);
+    }else{
+        lastday = new Date(arguments[0]+1, 0, 1);
+        firstday = new Date(arguments[0], arguments[1], 1);
+    }
+    dateText = firstday.toDateString().split(" ")[1]; 
 
-        return{
-            name: arguments[2],
-            month: firstday.getMonth(),
-            monthText: dateText[1],
-            lastDate: lastday.getDate(),
-            firstDay: firstday.getDay(),
-        }
-
-    } else{
-        this.date = new Date();
-
-        return {
-            name: arguments[0],
-            year: this.date.getUTCFullYear(),
-            month: this.date.getMonth(),
-            date: this.date.getDate(),
-        }
+    return{
+        name: arguments[2],
+        month: firstday.getMonth(),
+        monthText: dateText,
+        lastDate: lastday.getDate(),
+        firstDay: firstday.getDay(),
     }
 }
 
-const now = dateObject("now");
+const today = new Date();
+
+const now = {
+    name: "now",
+    year: today.getUTCFullYear(),
+    month: today.getMonth(),
+    date: today.getDate(),
+};
 const thisMonth = dateObject(now.year, now.month, "thisMonth");
 const preMonth = dateObject(now.year, now.month-1, "preMonth"); 
 const nextMonth = dateObject(now.year, now.month+1, "nextMonth");
@@ -47,14 +41,9 @@ const dates = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
     21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
 
 function drawCalendar(daysObject){
-    // Make date iterator. 
-    let iter = function* () {
-        let index = 0;
-        while(dates[index] <= daysObject.lastDate){
-            yield dates[index++];
-        }
-    }
-    let iterator = iter();
+    //Make date iterator. 
+    let iterator = dates[Symbol.iterator]();
+    
     // Set component's id, attribute.
     const date = document.createElement("p");
     date.className = daysObject.name;
@@ -110,7 +99,7 @@ function drawCalendar(daysObject){
 }
 
 // Set title to today's date.
-document.title = `* ${now.year}/${now.month}/${now.date} *`;
+document.title = `* ${now.year}/${now.month+1}/${now.date} *`;
 
 // Set Boxes.
 const box = document.createElement("div");
