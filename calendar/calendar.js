@@ -44,7 +44,7 @@ function drawCalendar(daysObject){
     //Make date iterator. 
     let iterator = dates[Symbol.iterator]();
     
-    // Set component's id, attribute.
+    // Set component's className, attribute.
     const date = document.createElement("p");
     date.className = daysObject.name;
 
