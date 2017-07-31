@@ -1,3 +1,5 @@
+'use strict'; // strict mode: https://developer.mozilla.org/en-US/docs/Web/JavaScript/References/Strict_mode
+
 // Sets this month's last day, first day, today.
 
 function dateObject(){
@@ -9,7 +11,7 @@ function dateObject(){
         lastday = new Date(arguments[0]+1, 0, 1);
         firstday = new Date(arguments[0], arguments[1], 1);
     }
-    dateText = firstday.toDateString().split(" ")[1]; 
+    let dateText = firstday.toDateString().split(" ")[1]; 
 
     return{
         name: arguments[2],
@@ -58,11 +60,11 @@ function drawCalendar(daysObject){
     dateTable.className = daysObject.name + "Date";
 
     // Make titleLine content.
-    calendarTitle.innerHTML = "<strong>" + daysObject.monthText + "</strong>";
+    calendarTitle.innerHTML = `<strong> ${daysObject.monthText} </strong>`;
 
     // Make daysTable contents.
     let daysRow = daysTable.insertRow();
-    for(x of weeks){
+    for(let x of weeks){ // MDN "for ... of" example.
         daysRow.insertCell().innerHTML = "<strong>" + x + "</strong>";
     }
 
@@ -70,7 +72,7 @@ function drawCalendar(daysObject){
     for(let i = 0; i <= 5;i++){
         let dateRow = dateTable.insertRow();
         dateRow.setAttribute("style", "height:25px;");
-        for(let j=0; j < 7;j++){
+        for(let j = 0; j < 7;j++){
             if(i === 0 && j < daysObject.firstDay){
                 dateRow.insertCell().innerHTML = "";
             }else{
