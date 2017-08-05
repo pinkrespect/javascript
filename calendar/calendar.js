@@ -37,15 +37,7 @@ const nextMonth = dateObject(now.year, now.month+1, "nextMonth");
 // Sets days of week.
 const weeks = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-// Sets maximum date for a month.
-const dates = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-    11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-    21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31];
-
 function drawCalendar(daysObject){
-    //Make date iterator. 
-    let iterator = dates[Symbol.iterator]();
-    
     // Set component's className, attribute.
     const date = document.createElement("p");
     date.className = daysObject.name;
@@ -69,6 +61,7 @@ function drawCalendar(daysObject){
     }
 
     // Make dateTable contents. 
+    let number = 0;
     for(let i = 0; i <= 5;i++){
         let dateRow = dateTable.insertRow();
         dateRow.setAttribute("style", "height:25px;");
@@ -76,8 +69,8 @@ function drawCalendar(daysObject){
             if(i === 0 && j < daysObject.firstDay){
                 dateRow.insertCell().innerHTML = "";
             }else{
-                let number = iterator.next().value;
-                if(number !== undefined && number <= daysObject.lastDate){
+                if(number < daysObject.lastDate){
+                    number++;
                     if(daysObject.name === "thisMonth" && number === now.date){
                         // Make today's date bold.
                         let todateCell = dateRow.insertCell();
