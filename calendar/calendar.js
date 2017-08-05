@@ -74,7 +74,7 @@ function drawCalendar(daysObject){
                         // Make today's date bold.
                         let todateCell = dateRow.insertCell();
                         todateCell.className = "todateCell";
-                        todateCell.innerHTML = "<strong> ${number} </strong>";
+                        todateCell.innerHTML = `<strong> ${number} </strong>`;
                     } else {
                         dateRow.insertCell().innerHTML = number; 
                     }
