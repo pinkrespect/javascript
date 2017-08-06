@@ -39,9 +39,9 @@ calendarBox.appendChild(drawCalendar(nowYear, nowMonth, "thisMonth"));
 calendarBox.appendChild(drawCalendar(nowYear, nowMonth+1, "nextMonth"));
 box.appendChild(calendarBox);
 
-function drawCalendar(year, mon, name) {
-    const lastday = new Date(year, mon+1, 0);
-    const firstday = new Date(year, mon, 1);
+function drawCalendar(year, month, name) {
+    const lastday = new Date(year, month+1, 0);
+    const firstday = new Date(year, month, 1);
 
     const monthNumber = firstday.getMonth();
     const monthText = firstday.toDateString().split(" ")[1];
