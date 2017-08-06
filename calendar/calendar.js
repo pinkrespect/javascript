@@ -1,15 +1,9 @@
 'use strict'; // strict mode: https://developer.mozilla.org/en-US/docs/Web/JavaScript/References/Strict_mode
 
 // Sets this month's last day, first day, today.
-function dateObject(){
-    let lastday, firstday;
-    if(arguments[1] !== 12){
-        lastday = new Date(arguments[0], arguments[1]+1, 0);
-        firstday = new Date(arguments[0], arguments[1], 1);
-    }else{
-        lastday = new Date(arguments[0]+1, 0, 1);
-        firstday = new Date(arguments[0], arguments[1], 1);
-    }
+function dateObject(year, month, name){
+    let lastday = new Date(arguments[0], arguments[1]+1, 0);
+    let firstday = new Date(arguments[0], arguments[1], 1);
     let dateText = firstday.toDateString().split(" ")[1]; 
 
     return{
@@ -78,8 +72,6 @@ function drawCalendar(daysObject){
                     } else {
                         dateRow.insertCell().innerHTML = number; 
                     }
-                } else{
-                    dateRow.insertCell().innerHTML = "";
                 }
             }
         }
