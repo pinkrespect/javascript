@@ -2,14 +2,13 @@
 
 // Sets this month's last day, first day, today.
 function monthObject(year, month, name){
-    let lastday = new Date(arguments[0], arguments[1]+1, 0);
-    let firstday = new Date(arguments[0], arguments[1], 1);
-    let dateText = firstday.toDateString().split(" ")[1]; 
+    let lastday = new Date(year, month+1, 0);
+    let firstday = new Date(year, month, 1);
 
     return{
-        name: arguments[2],
+        name,
         month: firstday.getMonth(),
-        monthText: dateText,
+        monthText: firstday.toDateString().split(" ")[1],
         lastDate: lastday.getDate(),
         firstDay: firstday.getDay(),
     }
