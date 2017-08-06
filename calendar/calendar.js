@@ -1,19 +1,5 @@
 'use strict'; // strict mode: https://developer.mozilla.org/en-US/docs/Web/JavaScript/References/Strict_mode
 
-// Sets this month's last day, first day, today.
-function monthObject(year, month, name) {
-    const lastday = new Date(year, month+1, 0);
-    const firstday = new Date(year, month, 1);
-
-    return {
-        name,
-        month: firstday.getMonth(),
-        monthText: firstday.toDateString().split(" ")[1],
-        lastDate: lastday.getDate(),
-        firstDay: firstday.getDay(),
-    }
-}
-
 const today = new Date();
 
 const nowYear = today.getUTCFullYear();
@@ -48,30 +34,35 @@ titleString.fillText(nowYear, 150, 130);
 const calendarBox = document.createElement("p");
 calendarBox.className = "calendarBox";
 
-const thisMonth = monthObject(nowYear, nowMonth, "thisMonth");
-const preMonth = monthObject(nowYear, nowMonth-1, "preMonth"); 
-const nextMonth = monthObject(nowYear, nowMonth+1, "nextMonth");
-calendarBox.appendChild(drawCalendar(preMonth));
-calendarBox.appendChild(drawCalendar(thisMonth));
-calendarBox.appendChild(drawCalendar(nextMonth));
+calendarBox.appendChild(drawCalendar(nowYear, nowMonth-1, "preMonth"));
+calendarBox.appendChild(drawCalendar(nowYear, nowMonth, "thisMonth"));
+calendarBox.appendChild(drawCalendar(nowYear, nowMonth+1, "nextMonth"));
 box.appendChild(calendarBox);
 
-function drawCalendar(daysObject) {
+function drawCalendar(year, mon, name) {
+    const lastday = new Date(year, mon+1, 0);
+    const firstday = new Date(year, mon, 1);
+
+    const monthNumber = firstday.getMonth();
+    const monthText = firstday.toDateString().split(" ")[1];
+    const lastDate = lastday.getDate();
+    const firstDay = firstday.getDay();
+
     // Set component's className, attribute.
     const date = document.createElement("p");
-    date.className = daysObject.name;
+    date.className = name;
 
     const calendarTitle = document.createElement("div");
-    calendarTitle.className = daysObject.name + "Title";
+    calendarTitle.className = name + "Title";
 
     const daysTable = document.createElement("table");
-    daysTable.className = daysObject.name + "Days";
+    daysTable.className = name + "Days";
 
     const dateTable = document.createElement("table");
-    dateTable.className = daysObject.name + "Date";
+    dateTable.className = name + "Date";
 
     // Make titleLine content.
-    calendarTitle.innerHTML = `<strong> ${daysObject.monthText} </strong>`;
+    calendarTitle.innerHTML = `<strong> ${monthText} </strong>`;
 
     // Make daysTable contents.
     const daysRow = daysTable.insertRow();
@@ -87,12 +78,12 @@ function drawCalendar(daysObject) {
     for (let i = 0; i <= 5;i++) {
         const dateRow = dateTable.insertRow();
         for (let j = 0; j < 7;j++) {
-            if (i === 0 && j < daysObject.firstDay) {
+            if (i === 0 && j < firstDay) {
                 dateRow.insertCell().innerHTML = "";
             } else {
-                if (number < daysObject.lastDate) {
+                if (number < lastDate) {
                     number++;
-                    if (daysObject.name === "thisMonth" && number === nowDate) {
+                    if (name === "thisMonth" && number === nowDate) {
                         // Make today's date bold.
                         const todateCell = dateRow.insertCell();
                         todateCell.className = "todateCell";
