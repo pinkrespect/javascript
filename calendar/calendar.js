@@ -16,15 +16,13 @@ function monthObject(year, month, name){
 
 const today = new Date();
 
-const now = {
-    name: "now",
-    year: today.getUTCFullYear(),
-    month: today.getMonth(),
-    date: today.getDate(),
-};
-const thisMonth = monthObject(now.year, now.month, "thisMonth");
-const preMonth = monthObject(now.year, now.month-1, "preMonth"); 
-const nextMonth = monthObject(now.year, now.month+1, "nextMonth");
+const nowYear = today.getUTCFullYear();
+const nowMonth = today.getMonth();
+const nowDate = today.getDate();
+
+const thisMonth = monthObject(nowYear, nowMonth, "thisMonth");
+const preMonth = monthObject(nowYear, nowMonth-1, "preMonth"); 
+const nextMonth = monthObject(nowYear, nowMonth+1, "nextMonth");
 
 // Sets days of week.
 const weeks = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -62,7 +60,7 @@ function drawCalendar(daysObject){
             }else{
                 if(number < daysObject.lastDate){
                     number++;
-                    if(daysObject.name === "thisMonth" && number === now.date){
+                    if(daysObject.name === "thisMonth" && number === nowDate){
                         // Make today's date bold.
                         let todateCell = dateRow.insertCell();
                         todateCell.className = "todateCell";
@@ -85,7 +83,7 @@ function drawCalendar(daysObject){
 }
 
 // Set title to today's date.
-document.title = `* ${now.year}/${now.month+1}/${now.date} *`;
+document.title = `* ${nowYear}/${nowMonth+1}/${nowDate} *`;
 
 // Set Boxes.
 const box = document.createElement("div");
@@ -97,7 +95,7 @@ titleBox.className = "titleBox";
 
 let titleString = titleBox.getContext('2d');
 titleString = Object.assign(titleString, {className: "titleBox", shadowColor: "#9AABBE", shadowOffsetX: 10, shadowOffsetY: 10, shadowBlur: 0, font: "120px 'Consolas'", textAlign: "center", fillStyle: "#4B3376"});
-titleString.fillText(now.year, 150, 130);
+titleString.fillText(nowYear, 150, 130);
 
 const calendarBox = document.createElement("p");
 calendarBox.className = "calendarBox";
