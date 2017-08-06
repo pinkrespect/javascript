@@ -2,6 +2,10 @@ body{
     background-color:#d5d5e2;
 } 
 
+table.thisMonthDate, table.preMonthDate, table.nextMonthDate {
+    height: 25px;
+}
+
 .thisMonth, .preMonth, .nextMonth{
     width: 200px;
     margin: 30px 30px 30px 30px;
