@@ -6,25 +6,22 @@ const nowYear = today.getUTCFullYear();
 const nowMonth = today.getMonth();
 const nowDate = today.getDate();
 
-// Set title to today's date.
-document.title = `* ${nowYear}/${nowMonth+1}/${nowDate} *`;
-
-// Set Boxes.
-const box = document.createElement("div");
-box.className = "box";
-document.body.appendChild(box);
+document.title = `*${nowYear}/${nowMonth+1}/${nowDate}*`;
 
 const titleBox = document.createElement("div");
 titleBox.className = "titleBox";
 titleBox.innerHTML = `<b>${nowYear}</b>`;
-box.appendChild(titleBox);
 
 const calendarBox = document.createElement("p");
 calendarBox.className = "calendarBox";
-
 calendarBox.appendChild(drawCalendar(nowYear, nowMonth-1));
 calendarBox.appendChild(drawCalendar(nowYear, nowMonth));
 calendarBox.appendChild(drawCalendar(nowYear, nowMonth+1));
+
+const box = document.createElement("div");
+box.className = "box";
+document.body.appendChild(box);
+box.appendChild(titleBox);
 box.appendChild(calendarBox);
 
 function drawCalendar(year, month) {
@@ -36,58 +33,53 @@ function drawCalendar(year, month) {
     const lastDate = lastday.getDate();
     const firstDay = firstday.getDay();
 
-    // Set component's className, attribute.
     const calendarTable = document.createElement("p");
     calendarTable.className = "calendarTable";
 
     const monthTitle = document.createElement("div");
     monthTitle.className = "monthString";
+    calendarTable.appendChild(monthTitle);
 
     const daysTable = document.createElement("table");
     daysTable.className = "daysTable";
+    calendarTable.appendChild(daysTable);
 
     const dateTable = document.createElement("table");
     dateTable.className = "dateTable";
+    calendarTable.appendChild(dateTable);
 
-    // Make titleLine content.
-    monthTitle.innerHTML = `<strong> ${monthText} </strong>`;
+    monthTitle.innerHTML = `<strong>${monthText}</strong>`;
 
-    // Make daysTable contents.
     const daysRow = daysTable.insertRow();
 
-    // Sets days of week.
-    // MDN "for ... of" example.
     for (const x of ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]) {
-        daysRow.insertCell().innerHTML = `<strong> ${x} </strong>`;
+        daysRow.insertCell().innerHTML = `<strong>${x}</strong>`;
     }
 
-    // Make dateTable contents. 
     let number = 0;
-    for (let i = 0; i <= 5;i++) {
+    for (let i = 0; i <= 5; i++) {
         const dateRow = dateTable.insertRow();
-        for (let j = 0; j < 7;j++) {
-            if (i === 0 && j < firstDay) {
-                dateRow.insertCell().innerHTML = "";
-            } else {
-                if (number < lastDate) {
-                    if (nowMonth === monthNumber && number === nowDate) {
-                        // Make today's date bold.
-                        const todateCell = dateRow.insertCell();
-                        todateCell.className = "todateCell";
-                        todateCell.innerHTML = `<strong> ${++number} </strong>`;
-                    } else {
-                        dateRow.insertCell().innerHTML = ++number; 
-                    }
-                } else {
-                    dateRow.insertCell().innerHTML = "&nbsp;";
-                }
+        dateRow.className = "dateRow";
+        for (let j = 0; j < 7; j++) {
+            if ((i === 0 && j < firstDay) || number >= lastDate) {
+                dateRow.insertCell();
+                continue;
             }
+            
+            number += 1;
+
+            if (nowMonth !== monthNumber || number !== nowDate) {
+                dateRow.insertCell().innerHTML = number; 
+                continue;
+            }
+
+            // Make today's date bold.
+            const todateCell = dateRow.insertCell();
+            todateCell.className = "todateCell";
+            todateCell.innerHTML = `<strong>${number}</strong>`;
         }
     }
 
     // Append Child Node to each Parent Node.
-    calendarTable.appendChild(monthTitle);
-    calendarTable.appendChild(daysTable);
-    calendarTable.appendChild(dateTable);
     return calendarTable;
 }
