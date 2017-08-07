@@ -56,4 +56,6 @@ body{
     flex-direction: row;
     justify-content: center;
 }
-
+.dateRow {
+    height: 25px;
+}
