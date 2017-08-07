@@ -1,30 +1,37 @@
+.box {
+    text-align: center;
+}
+
+.titleBox{
+    text-align: center;
+    text-shadow:10px 10px 0px #9AABBE;
+    font-size:80px;
+    font-family: Consolas;
+    color: #4B3376;
+}
+
 body{
     background-color:#d5d5e2;
 } 
 
-table.thisMonthDate, table.preMonthDate, table.nextMonthDate {
-    height: 25px;
-}
-
-.thisMonth, .preMonth, .nextMonth{
+.calendarTable{
     width: 200px;
     margin: 30px 30px 30px 30px;
-    align-content: center;
 }
 
-.thisMonthTitle, .preMonthTitle, .nextMonthTitle{
+.monthString{
     font-size: 30px;
     color: #9AABBE;
 }
 
-.thisMonthDays, .preMonthDays, .nextMonthDays{
+.daysTable{
     width: 200px;
     font-size: 10px;
     color: #BDCAD1;
     text-align: center;
 }
 
-.thisMonthDate, .preMonthDate, .nextMonthDate{
+.dateTable{
     width: 200px;
     height: 160px;
     text-align: center;
@@ -39,7 +46,6 @@ table.thisMonthDate, table.preMonthDate, table.nextMonthDate {
 }
 
 .titleBox{
-    width: 300px;
     margin-top: 100px;
 }
 
@@ -49,10 +55,5 @@ table.thisMonthDate, table.preMonthDate, table.nextMonthDate {
     display: flex;
     flex-direction: row;
     justify-content: center;
-}
-
-.box{
-    align-content: center;
-    align-text: center;
 }
 
