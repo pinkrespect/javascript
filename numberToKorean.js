@@ -1,29 +1,11 @@
 `use strict`;
 
 function numberToKorean(number) {
-	const koreanNumber = {
-		"1": "일",
-		"2": "이",
-		"3": "삼",
-		"4": "사",
-		"5": "오",
-		"6": "육",
-		"7": "칠",
-		"8": "팔",
-		"9": "구",
-	};
-
-	const positionalNumber = {
-		0: "십",
-		1: "백",
-		2: "천",
-		3: "",
-	};
-
+	const koreanNumber = ["일", "이", "삼", "사", "오", "육", "칠", "팔", "구"];
+	const positionalNumber = ["십", "백", "천"];
 	const numberOfUnits = ["조", "억", "만"];
 
-	const stringArray = number.toString().split("");
-	const reversedKoreanArray = [];
+	const stringArray = x => {for(let x = 0; x < ;
 	const stringArrayLength = stringArray.length;
 	const resultArray = [];
 
