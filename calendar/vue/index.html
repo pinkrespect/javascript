@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <script src="https://unpkg.com/vue"></script>
+    </head>
+    <body>
+        <div class="box">
+            <div class="string">
+                {{ thisYear }}
+            </div>
+            <p class="calendarTable">
+            <div class="string">
+                {{ thisMonth }}
+            </div>
+            <table class="daysTable">
+                <tr>
+                    <td v-for="day in days">
+                        {{ day }}
+                    </td>
+                </tr>
+            </table>
+            <table class="dateTable">
+                {{ lastDate }}
+            </table>
+            </p>
+        </div>
+        <script>
+            const string = new Vue({
+                el: ".box",
+                data: {
+                    thisYear: new Date().getUTCFullYear(),
+                    thisMonth: new Date().getMonth() + 1,
+                    thisDate: new Date().getDate(),
+                    days: ["일", "월", "화", "수", "목", "금", "토", "일"],
+                    preYear: 0,
+                    preMonth: 0,
+                    lastDate: 0,
+                },
+                computed: {
+                    pre: {
+                        set: function
+                    }
+                }
+            })
+
+        </script>
+    </body>
+</html>
